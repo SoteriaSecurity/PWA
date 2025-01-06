@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soteria</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/modal.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+<header>
+    <h1>Soteria</h1>
+    <h2 id="location">Checking if you're protected...</h2>
+    <h2>
+        <div class="map-link">
+            <a href="./index.html">Return to floormap...</a>
+            <button id="infoBox"><img src="./assets/info.png" id="infoIcon" alt="Info Icon"></button>
+            <div id="popup" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p>Local map is recommended if you are unfamiliar with the building or are just in the surrounding area. If you are able to, it is highly encouraged to use the floormap.</p>
+                </div>
+            </div>
+        </div>
+    </h2>
+</header>
+<div id="map"></div>
+<a style="height: 4.5vh"></a>
+<script type="module">
+    import { requestLocationPermission } from "./js/location.js";
+    // TODO: change to real
+    const threat_x = 39.14233774060052;
+    const threat_y = -77.2498538947692;
+
+    const bluePin = L.icon({
+        iconUrl: 'assets/bluepin.png',
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        popupAnchor: [0, -40]
+    });
+
+    const redPin = L.icon({
+        iconUrl: 'assets/redpin.png',
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        popupAnchor: [0, -40]
+    });
+
+    let map;
+
+    requestLocationPermission((user_x, user_y) => {
+        if (user_x == null || user_y == null) {
+            map = L.map('map').setView([threat_x, threat_y], 14);
+        } else {
+            const midpoint_x = (user_x + threat_x) / 2;
+            const midpoint_y = (user_y + threat_y) / 2;
+            const distance = Math.sqrt(Math.pow(user_x - threat_x, 2) + Math.pow(user_y - threat_y, 2));
+            const zoom = 0.00276426047 / (Math.pow(distance, 0.0012265719) - 0.992780409)
+                + 13.0937204 * Math.exp(0.0449157249 * distance); // source: https://julius.ai/s/84c7b6a6-35e9-4d5b-9661-41660ff7f2a1
+            map = L.map('map').setView([midpoint_x, midpoint_y], zoom);
+
+            const userMarker = L.marker([user_x, user_y], {icon: bluePin}).addTo(map);
+            userMarker.bindPopup('<b>Current Location</b>');
+        }
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        const threatMarker = L.marker([threat_x, threat_y], {icon: redPin }).addTo(map);
+        threatMarker.bindPopup('<b>Detected Threat</b>').openPopup();
+    });
+</script>
+</body>
+</html>

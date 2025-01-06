@@ -1,0 +1,14 @@
+{
+  "tllat": "0",
+  "tllong": "0",
+  "brlat": "40",
+  "brlong": "40",
+  "cameras": [
+    {
+      "camera": "one",
+      "identifier": "rtsp://127.0.0.1:554/stream",
+      "x": "0.5",
+      "y": "0.5"
+    }
+  ]
+}

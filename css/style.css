@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+
+:root {
+    --bg-color: #111111;
+    --soteria-blue: #20719b;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 1000px;
+    height: 100vh;
+    font-family: "Geist", sans-serif;
+    font-optical-sizing: auto;
+    background-color: var(--bg-color);
+    color: var(--soteria-blue);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    line-height: 80%;
+}
+
+main {
+    margin: auto;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header {
+    overflow: hidden;
+    height: 25vh;
+    width: 100vw;
+}
+
+h1 {
+    padding-top: 2vh;
+    font-size: xxx-large;
+}
+
+h1, h2{
+    margin-top: 4vh;
+}
+
+h3 {
+    margin-top: 5vh;
+}
+
+a {
+    color: lightgray;
+    text-decoration: none;
+}
+
+#success {
+    color: limegreen;
+}
+
+#failure {
+    color: red;
+}
+
+#floorplan-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    height: 70vh;
+    max-height: 75vh;
+    overflow: visible;
+}
+
+#map {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 90%;
+    height: 70vh;
+}
+
+#floorplan {
+    border: 2px solid var(--soteria-blue);
+    max-width: 95%;
+    max-height: 70vh;
+    height: auto;
+    width: auto;
+    object-fit: contain;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    width: 30px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+#infoBox {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: absolute;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: var(--soteria-blue);
+    margin: 20% auto;
+    padding: 20px;
+    color: white;
+    font-size: large;
+    font-weight: normal;
+    line-height: 3vh;
+    border: 1px solid #888;
+    width: 70%;
+
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+.close {
+    color: #fff;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#infoIcon {
+    width: 1.5rem;
+    height: auto;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}

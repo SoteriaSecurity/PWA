@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soteria</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/location.js"></script>
+    <script src="./js/floorplan.js"></script>
+    <script src="./js/modal.js"></script>
+</head>
+<body>
+<header>
+    <h1>Soteria</h1>
+    <h2 id="location">Checking if you're protected...</h2>
+    <h2>
+        <div class="map-link">
+            <a href="./map.html">View local map...</a>
+            <button id="infoBox"><img src="./assets/info.png" id="infoIcon" alt="Info Icon"></button>
+            <div id="popup" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p>Floormap is recommended if you are nearby or familiar with the building. If not, it is highly encouraged to use a local map of the surrounding area.</p>
+                </div>
+            </div>
+        </div>
+    </h2>
+</header>
+<div id="floorplan-container">
+    <img id="floorplan" src="./assets/floorplan.jpg" alt="Floorplan">
+</div>
+<script type="module">
+    import { requestLocationPermission } from "./js/location.js";
+    requestLocationPermission();
+</script>
+</body>
+</html>
