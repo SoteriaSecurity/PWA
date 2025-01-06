@@ -25,26 +25,39 @@ export function requestLocationPermission(callback) {
                 if (callback) callback(latitude, longitude);
             },
             error => {
-                console.error('Error requesting location permission:', error.message);
-                updateLocationDisplay(true);
-                callback(null, null);
+                if (error.code === error.PERMISSION_DENIED) {
+                    console.warn('Location permission denied by the user.');
+                    updateLocationDisplay(true, 'Location access denied.');
+                } else {
+                    console.error('Error requesting location permission:', error.message);
+                    updateLocationDisplay(true, 'Failed to retrieve location.');
+                }
+
+                if (callback) callback(null, null);
             }
         );
     } else {
         console.log('Geolocation is not supported by this browser.');
-        updateLocationDisplay(true);
-        callback(null, null);
+        updateLocationDisplay(true, 'Geolocation is not supported by your browser.');
+        if (callback) callback(null, null);
     }
 }
 
-function updateLocationDisplay(failed = false) {
+function updateLocationDisplay(failed = false, message = '') {
     const locationBox = document.getElementById('location');
 
     if (locationBox) {
         if (!failed) {
             locationBox.innerHTML = `<span id="success">You're being protected!</span>`;
         } else {
-            locationBox.innerHTML = `<span id="failure">Location not shared!</span>`;
+            locationBox.innerHTML = `<span id="failure">${message || 'Location not shared!'}</span>`;
         }
     }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById('location').addEventListener('click', (event) => {
+        event.preventDefault();
+        requestLocationPermission();
+    });
+});
