@@ -1,4 +1,4 @@
-const jsonPath = "../assets/data.json";
+const jsonPath = "https://www.soteria-security.us/PWA/assets/data.json";
 
 document.addEventListener('DOMContentLoaded', () => {
     fetch(jsonPath)
