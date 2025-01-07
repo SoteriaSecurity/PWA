@@ -6,22 +6,28 @@
     <title>Soteria</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/modal.js"></script>
+    <script src="main.js" type="module" defer></script>
+    <script src="./js/modal.js" defer></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
+<script>0</script>
 <header>
     <h1>Soteria</h1>
-    <a href="#" id="location">Checking if you're protected...</a>
+    <a href="#" id="enabler"><span id="refresher">↻ </span><span id="location">Location... </span><span id="notification">Notification... </span></a>
     <h2 style="margin: 0;">
         <div class="map-link">
             <a href="./index.html">Return to floormap...</a>
             <button id="infoBox"><img src="./assets/info.png" id="infoIcon" alt="Info Icon"></button>
             <div id="popup" class="modal">
                 <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <p>Local map is recommended if you are unfamiliar with the building or are just in the surrounding area. If you are able to, it is highly encouraged to use the floormap.</p>
+                    <div class="close">&times;</div><br>
+                    Local map is recommended if you are unfamiliar with the building or are just in the surrounding area. If you are able to, it is highly encouraged to use the floormap.<br><br>
+                    Permissions key:<br>
+                    ❓ - Failed to retrieve<br>
+                    ⛔ - Access to service denied<br>
+                    ❌ - Not supported by your browser
                 </div>
             </div>
         </div>
@@ -30,13 +36,16 @@
 <div id="map"></div>
 <a style="height: 4.5vh"></a>
 <script type="module">
+    import {checkNotificationPermission} from "./main.js";
+    checkNotificationPermission();
+
     import { requestLocationPermission } from "./js/location.js";
     // TODO: change to real
-    const threat_x = 39.14233774060052;
-    const threat_y = -77.2498538947692;
+    const threat_x = 39.15294936019142;
+    const threat_y = -77.20454752375169;
 
     const bluePin = L.icon({
-        iconUrl: 'assets/bluepin.png',
+    iconUrl: 'assets/bluepin.png',
         iconSize: [30, 30],
         iconAnchor: [15, 40],
         popupAnchor: [0, -40]
@@ -52,15 +61,19 @@
     let map;
 
     requestLocationPermission((user_x, user_y) => {
-        if (user_x == null || user_y == null) {
+        if (user_x === null || user_y === null) {
             map = L.map('map').setView([threat_x, threat_y], 14);
         } else {
+            // TODO: change when done with demo code
+            user_x = 39.149978876760755;
+            user_y = -77.2059241960242;
             const midpoint_x = (user_x + threat_x) / 2;
             const midpoint_y = (user_y + threat_y) / 2;
-            const distance = Math.sqrt(Math.pow(user_x - threat_x, 2) + Math.pow(user_y - threat_y, 2));
-            const zoom = 0.00276426047 / (Math.pow(distance, 0.0012265719) - 0.992780409)
-                + 13.0937204 * Math.exp(0.0449157249 * distance); // source: https://julius.ai/s/84c7b6a6-35e9-4d5b-9661-41660ff7f2a1
+            const d = Math.sqrt(Math.pow(user_x - threat_x, 2) + Math.pow(user_y - threat_y, 2));
+            const zoom = 73769.37975 / d * Math.exp(-4667.97275 * d)
+                + 11.83199 * Math.exp(-0.08104 * d); // https://julius.ai/s/84c7b6a6-35e9-4d5b-9661-41660ff7f2a1
             map = L.map('map').setView([midpoint_x, midpoint_y], zoom);
+            console.log(d, zoom);
 
             const userMarker = L.marker([user_x, user_y], {icon: bluePin}).addTo(map);
             userMarker.bindPopup('<b>Current Location</b>');

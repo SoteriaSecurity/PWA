@@ -1,45 +1,24 @@
-self.addEventListener('install', event => {
-    console.log('Service Worker: Installed');
+self.addEventListener('push', function(event) {
+    const payload = event.data ? event.data.json() : {};
+    const title = payload.title || 'Default Title';
+    const options = {
+        body: payload.body || 'Default Body',
+        icon: payload.icon || 'https://www.soteria-security.us/assets/images/logo.svg'
+    };
+
     event.waitUntil(
-        caches.open('static-cache').then(cache => {
-            cache.addAll([
-                '/',
-                '/index.html',
-                '/css/styles.css',
-                '/js/location.js',
-                '/assets/icon-192x192.png',
-                '/assets/icon-512x512.png'
-            ]);
-        })
+        self.registration.showNotification(title, options)
     );
 });
 
-self.addEventListener('fetch', event => {
-    event.respondWith(
-        caches.match(event.request).then(response => {
-            return response || fetch(event.request);
-        })
-    );
-});
-
-self.addEventListener('sync', event => {
-    if (event.tag === 'sync-location') {
-        event.waitUntil(
-            fetch('/update-location', {
-                method: 'POST',
-                body: JSON.stringify({ latitude: 0, longitude: 0 }),
-                headers: { 'Content-Type': 'application/json' }
-            })
-        );
+self.addEventListener('message', event => {
+    if (event.data && event.data.type === 'simulate-push') {
+        const data = event.data.payload || { title: 'Test Title', body: 'This is a test notification.' };
+        self.registration.showNotification(data.title, {
+            body: data.body,
+            icon: data.icon || 'https://www.soteria-security.us/assets/images/logo.svg',
+        }).catch(err => {
+            console.error('Failed to show notification:', err);
+        });
     }
-});
-
-self.addEventListener('push', event => {
-    const data = event.data ? event.data.json() : {};
-    event.waitUntil(
-        self.registration.showNotification(data.title || 'Notification', {
-            body: data.body || 'You have a new update!',
-            icon: '/assets/icon-192x192.png'
-        })
-    );
 });

@@ -1,16 +1,9 @@
 let latitude = null;
 let longitude = null;
 
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-        .register('/service-worker.js')
-        .then(() => console.log('Service Worker registered'))
-        .catch(err => console.error('Service Worker registration failed:', err));
-}
-
 export function requestLocationPermission(callback) {
     if (latitude !== null && longitude !== null) {
-        console.log('Location already available:', latitude, longitude);
+        console.log('Location already available');
         if (callback) callback(latitude, longitude);
         return;
     }
@@ -27,10 +20,10 @@ export function requestLocationPermission(callback) {
             error => {
                 if (error.code === error.PERMISSION_DENIED) {
                     console.warn('Location permission denied by the user.');
-                    updateLocationDisplay(true, 'Location access denied.');
+                    updateLocationDisplay(true, 'Location ⛔');
                 } else {
                     console.error('Error requesting location permission:', error.message);
-                    updateLocationDisplay(true, 'Failed to retrieve location.');
+                    updateLocationDisplay(true, 'Location ❓');
                 }
 
                 if (callback) callback(null, null);
@@ -38,26 +31,22 @@ export function requestLocationPermission(callback) {
         );
     } else {
         console.log('Geolocation is not supported by this browser.');
-        updateLocationDisplay(true, 'Geolocation is not supported by your browser.');
+        updateLocationDisplay(true, 'Location ❌');
         if (callback) callback(null, null);
     }
 }
 
 function updateLocationDisplay(failed = false, message = '') {
-    const locationBox = document.getElementById('location');
+    const locationText = document.getElementById('location');
 
-    if (locationBox) {
-        if (!failed) {
-            locationBox.innerHTML = `<span id="success">You're being protected!</span>`;
-        } else {
-            locationBox.innerHTML = `<span id="failure">${message || 'Location not shared!'}</span>`;
-        }
+    if (!failed) {
+        locationText.innerHTML = `<span class="success">Location ✅ </span>`;
+    } else {
+        locationText.innerHTML = `<span class="failure">${message || 'Location not shared!'} </span>`;
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById('location').addEventListener('click', (event) => {
-        event.preventDefault();
-        requestLocationPermission();
-    });
+document.getElementById('enabler').addEventListener('click', (event) => {
+    event.preventDefault();
+    requestLocationPermission();
 });
