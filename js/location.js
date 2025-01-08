@@ -13,25 +13,23 @@ export function requestLocationPermission(callback) {
             position => {
                 latitude = position.coords.latitude;
                 longitude = position.coords.longitude;
-                updateLocationDisplay();
 
                 if (callback) callback(latitude, longitude);
             },
             error => {
                 if (error.code === error.PERMISSION_DENIED) {
                     console.warn('Location permission denied by the user.');
-                    updateLocationDisplay(true, 'Location ⛔');
                 } else {
                     console.error('Error requesting location permission:', error.message);
-                    updateLocationDisplay(true, 'Location ❓');
                 }
 
                 if (callback) callback(null, null);
+            }, {
+                timeout: 5 * 1000
             }
         );
     } else {
         console.log('Geolocation is not supported by this browser.');
-        updateLocationDisplay(true, 'Location ❌');
         if (callback) callback(null, null);
     }
 }
@@ -46,7 +44,9 @@ function updateLocationDisplay(failed = false, message = '') {
     }
 }
 
-document.getElementById('enabler').addEventListener('click', (event) => {
-    event.preventDefault();
-    requestLocationPermission();
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById('enabler').addEventListener('click', (event) => {
+        event.preventDefault();
+        requestLocationPermission();
+    });
 });

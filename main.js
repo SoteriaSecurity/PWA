@@ -1,16 +1,6 @@
+import { checkAll } from "./js/checker.js";
+
 const publickey = "BLA0fdKCDGwXsUXeNNery52icIYEaPlDXVD-qkqRCSmxzObJH_Wt1ge2ZXuCE5GZAzIGMwNo1eOhLYcTdveNHng";
-
-export function checkNotificationPermission() {
-    const notificationStatus = document.getElementById('notification');
-
-    if (Notification.permission === 'granted') {
-        notificationStatus.innerHTML = `<span class="success">Notifications ✅</span>`;
-    } else if (Notification.permission === 'denied') {
-        notificationStatus.innerHTML = `<span class="failure">Notifications ⛔</span>`;
-    } else {
-        notificationStatus.innerHTML = `<span class="failure">Notifications❓</span>`;
-    }
-}
 
 document.getElementById('enabler').addEventListener('click', async () => {
     if (!('serviceWorker' in navigator)) {
@@ -46,7 +36,7 @@ document.getElementById('enabler').addEventListener('click', async () => {
         console.error('Error during subscription:', error);
     }
 
-    checkNotificationPermission();
+    checkAll();
 });
 
 document.getElementById('enabler').addEventListener('click', async () => {
