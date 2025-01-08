@@ -19,7 +19,7 @@ document.getElementById('enabler').addEventListener('click', async () => {
     }
 
     try {
-        const registration = await navigator.serviceWorker.register('/service-worker.js');
+        const registration = await navigator.serviceWorker.register('./service-worker.js');
         console.log('Service Worker registered:', registration);
 
         const permission = await Notification.requestPermission();
