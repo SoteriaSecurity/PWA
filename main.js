@@ -33,9 +33,8 @@ document.getElementById('enabler').addEventListener('click', async () => {
             applicationServerKey: urlBase64ToUint8Array(publickey)
         });
 
-        // TODO : change to permanent server when done
-        // if running code, i (magikarp) did `lt --port 3001` to run my server locally
-        await fetch('https://ninety-moose-tie.loca.lt/', {
+        // TODO : change to real server when done
+        await fetch('https://nathan-pc.taile828dd.ts.net/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

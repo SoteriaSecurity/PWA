@@ -40,9 +40,9 @@ function updateLocationDisplay(failed = false, message = '') {
     const locationText = document.getElementById('location');
 
     if (!failed) {
-        locationText.innerHTML = `<span class="success">Location ✅ </span>`;
+        locationText.innerHTML = `<span class="success">Location ✅</span>`;
     } else {
-        locationText.innerHTML = `<span class="failure">${message || 'Location not shared!'} </span>`;
+        locationText.innerHTML = `<span class="failure">${message || 'Location not shared!'}</span>`;
     }
 }
 

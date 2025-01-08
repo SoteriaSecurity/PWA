@@ -60,6 +60,7 @@ a {
 #refresher {
     font-size: 1.325em;
     font-family: Lucida Sans Unicode, sans-serif Unicode;
+    color: var(--soteria-blue);
 }
 
 #enabler, .map-link {
@@ -69,6 +70,10 @@ a {
 
 #enabler {
     font-size: 1.5em;
+    color: lightgray;
+}
+
+#location, #notification {
     color: var(--soteria-blue);
 }
 
