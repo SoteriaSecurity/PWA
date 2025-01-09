@@ -31,9 +31,8 @@ document.getElementById('enabler').addEventListener('click', async () => {
             },
             body: JSON.stringify(subscription),
         });
-        console.log('Subscription sent to backend:', subscription);
     } catch (error) {
-        console.error('Error during subscription:', error);
+        console.error(error);
     }
 
     checkAll();

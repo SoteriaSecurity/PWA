@@ -1,5 +1,4 @@
 export function checkAll() {
-    console.log("check all");
     checkNotificationPermission();
     checkLocationPermission();
 }

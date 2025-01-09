@@ -3,7 +3,6 @@ let longitude = null;
 
 export function requestLocationPermission(callback) {
     if (latitude !== null && longitude !== null) {
-        console.log('Location already available');
         if (callback) callback(latitude, longitude);
         return;
     }
@@ -30,7 +29,6 @@ export function requestLocationPermission(callback) {
             }
         );
     } else {
-        console.log('Geolocation is not supported by this browser.');
         if (callback) callback(null, null);
     }
 }
