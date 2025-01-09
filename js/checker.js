@@ -1,4 +1,5 @@
 export function checkAll() {
+    console.log("check all");
     checkNotificationPermission();
     checkLocationPermission();
 }
@@ -20,18 +21,14 @@ function checkLocationPermission() {
 
     if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
-            () => {
-                locationText.innerHTML = `<span class="success">Location ✅</span>`;
-            }, e => {
-                if (e.code === e.PERMISSION_DENIED) {
-                    locationText.innerHTML = `<span class="failure">Location ⛔</span>`;
-                } else if (e.code === e.TIMEOUT) {
-                    locationText.innerHTML = `<span class="failure">Location ⏳</span>`;
-                } else {
-                    locationText.innerHTML = `<span class="failure">Location ❓</span>`;
-                }
+            () => { locationText.innerHTML = `<span class="success">Location ✅</span>`; }
+            , e => {
+                if (e.code === e.PERMISSION_DENIED) locationText.innerHTML = `<span class="failure">Location ⛔</span>`;
+                else if (e.code === e.TIMEOUT) locationText.innerHTML = `<span class="failure">Location ⏳</span>`;
+                else locationText.innerHTML = `<span class="failure">Location ❓</span>`;
             }, {
-                timeout: 5 * 1000
+                timeout: 20 * 1000,
+                enableHighAccuracy: true
             }
         );
     } else {

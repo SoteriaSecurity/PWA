@@ -25,22 +25,13 @@ export function requestLocationPermission(callback) {
 
                 if (callback) callback(null, null);
             }, {
-                timeout: 5 * 1000
+                timeout: 20 * 1000,
+                enableHighAccuracy: true
             }
         );
     } else {
         console.log('Geolocation is not supported by this browser.');
         if (callback) callback(null, null);
-    }
-}
-
-function updateLocationDisplay(failed = false, message = '') {
-    const locationText = document.getElementById('location');
-
-    if (!failed) {
-        locationText.innerHTML = `<span class="success">Location ✅</span>`;
-    } else {
-        locationText.innerHTML = `<span class="failure">${message || 'Location not shared!'}</span>`;
     }
 }
 

@@ -8,18 +8,19 @@
     <link rel="stylesheet" href="./css/style.css">
     <script src="main.js" type="module" defer></script>
     <script src="./js/floorplan.js" defer></script>
-    <script src="./js/checker.js" defer></script>
+    <script src="./js/checker.js" type="module" defer></script>
     <script src="./js/modal.js" defer></script>
 </head>
 <body>
 <script>0</script>
 <header>
+    <p style="width: 0; height: 0" id="top"></p>
     <h1>Soteria</h1>
     <a href="#" id="enabler"><span id="refresher">↻</span> | <span id="location">Location...</span> | <span id="notification">Notification...</span></a>
     <h2 style="margin: 0;">
         <div class="map-link">
             <a href="./map.html">View local map...</a>
-            <button id="infoBox"><img src="./assets/info.png" id="infoIcon" alt="Info Icon"></button>
+            <button id="infoBox"><a href="#top"><img src="./assets/info.png" id="infoIcon" alt="Info Icon"></a></button>
             <div id="popup" class="modal">
                 <div class="modal-content">
                     <div class="close">&times;</div><br>

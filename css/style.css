@@ -42,6 +42,7 @@ header {
 h1 {
     padding-top: 2vh;
     font-size: xxx-large;
+    margin-bottom: 2vh;
 }
 
 h1, h2{
@@ -69,7 +70,7 @@ a {
 }
 
 #enabler {
-    font-size: 1.5em;
+    font-size: 1.4em;
     color: lightgray;
 }
 
@@ -166,7 +167,7 @@ a {
     color: white;
     font-size: large;
     font-weight: normal;
-    line-height: 3vh;
+    line-height: 125%;
     border: 1px solid #888;
     width: 70%;
 
