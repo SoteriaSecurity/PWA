@@ -22,3 +22,22 @@ self.addEventListener('message', event => {
         });
     }
 });
+
+self.addEventListener('notificationclick', function(event) {
+    let url = 'https://www.soteria-security.us/PWA';
+    event.notification.close();
+
+    event.waitUntil(
+        clients.matchAll({ includeUncontrolled: true, type: 'window' }).then( windowClients => {
+            for (let i = 0; i < windowClients.length; i++) {
+                let client = windowClients[i];
+                if (client.url === url && 'focus' in client) {
+                    return client.focus();
+                }
+            }
+            if (clients.openWindow) {
+                return clients.openWindow(url);
+            }
+        })
+    );
+});
