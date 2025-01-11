@@ -24,7 +24,7 @@ export function requestLocationPermission(callback) {
 
                 if (callback) callback(null, null);
             }, {
-                timeout: 20 * 1000,
+                timeout: 10 * 1000,
                 enableHighAccuracy: true
             }
         );
