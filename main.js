@@ -10,7 +10,6 @@ document.getElementById('enabler').addEventListener('click', async () => {
 
     try {
         const registration = await navigator.serviceWorker.register('./service-worker.js');
-        console.log('Service Worker registered:', registration);
 
         const permission = await Notification.requestPermission();
         if (permission !== 'granted') {
@@ -38,21 +37,21 @@ document.getElementById('enabler').addEventListener('click', async () => {
     checkAll();
 });
 
-document.getElementById('enabler').addEventListener('click', async () => {
-    const registration = await navigator.serviceWorker.ready;
-    if (registration.active) {
-        registration.active.postMessage({
-            type: 'simulate-push',
-            payload: {
-                title: 'THREAT DETECTED',
-                body: 'Threat at \"Lakeforest Mall\"',
-                icon: 'https://www.soteria-security.us/assets/images/logo.svg'
-            }
-        });
-    } else {
-        console.error('No active Service Worker found.');
-    }
-});
+// document.getElementById('enabler').addEventListener('click', async () => {
+//     const registration = await navigator.serviceWorker.ready;
+//     if (registration.active) {
+//         registration.active.postMessage({
+//             type: 'simulate-push',
+//             payload: {
+//                 title: 'THREAT DETECTED',
+//                 body: 'Threat at \"Lakeforest Mall\"',
+//                 icon: 'https://www.soteria-security.us/assets/images/logo.svg'
+//             }
+//         });
+//     } else {
+//         console.error('No active Service Worker found.');
+//     }
+// });
 
 function urlBase64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
